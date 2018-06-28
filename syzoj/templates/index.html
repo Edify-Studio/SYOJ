@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="am-container">
+    <div class="am-u-sm-8">
+        <br>
+        <div class="am-panel am-panel-default am-u-sm-12">
+            <div class="am-topbar-left">
+                <ul class="am-nav am-nav-pills am-topbar-nav" >
+                    <li class="{% if tab=='problem_set' %}am-active {% endif %}"><a href="{{ url_for('problem_set') }}" class="fa fa-list" style="color:#808080;"> 题库</a>
+                    </li>
+                    <li class=""><a href="{{url_for('edit_problem',problem_id=0)}}" class="fa fa-sticky-note" style="color:#808080;"> 添加题目</a></li>
+                    <li class="{% if tab=='judge' %}am-active {% endif %}"><a href="{{ url_for('judge_state') }}" class="fa fa-align-right" style="color:#808080;"> 评测</a></li>
+                    <li class="{% if tab=='ranklist' %}am-active {% endif %}"><a href="{{url_for('ranklist')}}" class="fa fa-bar-chart" style="color:#808080;"> 排名</a></li>
+                </ul>
+            </div>
+            <div class="am-topbar-right">
+                <button title="敬请期待" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">提问</button>
+            </div>
+        </div>
+            {% if user %}
+            {% set submitted_problem = user.get_submitted_problems() %}
+            {% endif %}
+            {% for problem in problems %}
+            {% if problem.is_allowed_use(user) %}
+            {% if user and problem.id in submitted_problem %}
+                &nbsp;
+            {% else %}
+              {% set tag_list = problem.tags.split(',') %}
+        <div class="am-panel am-panel-default am-u-sm-12">
+            <div class="am-panel-bd am-topbar-nav">
+                <p class="fa fa-tags" style="color:#808080;margin:5px 0px 10px 5px;"> 来自标签：{% for tag in tag_list[:5] %}<span class="am-badge fa fa-tags" style="border-radius:10px"> {{tag}}</span>&nbsp;{% endfor %}</p>
+                <a href="{{url_for('problem',problem_id=problem.id)}}"><h2 style="margin:5px 0px 10px 5px;"><span class="fa fa-pencil-square-o" ></span> {{problem.title}}{% if not problem.is_public %}--[未审核]{% endif %}</h2></a>
+                <p style="margin:5px 0px 10px 5px;">{{problem.description[:50]}}</p>
+                    <a title="敬请期待" style="padding:8px 8px 8px 8px;" class="fa fa-heart am-btn am-btn-primary"> 101</a>&nbsp;&nbsp;
+                    <a title="敬请期待" class="fa fa-star"> 收藏</a>&nbsp;&nbsp;
+                    <a title="敬请期待" class="fa fa-list"> FAQ</a>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
+    <br>
+    	<div class="am-u-sm-4">
+		<div class="am-panel am-panel-default">
+            <div class="am-panel am-panel-default am-u-sm-12">
+                <br>
+                <img src="{{url_for('static',filename='syzoj-logo.png')}}">
+  <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+    <div class="am-list-news-hd am-cf">
+        <a href="{{url_for('info')}}" class="">
+          <h2 style="color:black">站务公告</h2>
+            <span class="am-list-news-more am-fr">更多 &raquo;</span>
+        </a>
+          </div>
+  <div class="am-list-news-bd">
+  <ul class="am-list">
+      <li class="am-g am-list-item-desced">
+          <a href="http://www.douban.com/online/11614662/" class="am-list-item-hd ">内心永远是彩虹色！</a>
+          <div class="am-list-item-text">多田君寻妻记...</div>
+      </li>
+      <li class="am-g am-list-item-desced">
+          <a href="http://www.douban.com/online/11624755/" class="am-list-item-hd ">SYOJ７月月赛</a>
+          <div class="am-list-item-text">推迟举行了QAQ...</div>
+      </li>
+      <li class="am-g am-list-item-desced">
+          <a href="http://www.douban.com/online/11645411/" class="am-list-item-hd ">关于站长LDL于本年度BML场地猥亵幼女的处理通告</a>
+          <div class="am-list-item-text">我站深表遗憾...</div>
+      </li>
+  </ul>
+  </div>
+  </div>
+        </div>
+    </div>
+</div>
+    {{sorter.get_html()|safe}}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="amz-banner">
+    <div class="am-scrollspy-init am-scrollspy-inview " style="padding-top:36px;padding-bottom:36px;color:white;background-color:#00BFFF">
+  <div class="am-container" style="margin: 0 auto; text-align: center">
+      <img src="{{url_for('static',filename='./img/syzoj-logo.png')}}" style="height:125px">
+      <h1 style="margin-top:5px;margin-bottom:6px;font-size:30px;font-weight:360">自由讨论</h1>
+      <ruby style="font-size:10px">纸上得来终觉浅<rt>Have fun Okay~</rt>,绝知此事要躬行</ruby>
+</div>
+    </div>
+        </div>
+    </div>
+</div>
+    <br>
+<div class="am-container am-g">
+    <div class="am-u-sm-12">
+        <a href="{{url_for('edit_article',article_id=0)}}" class="am-btn am-btn-primary am-btn-sm am-fr">发表文章</a>
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th><center>标题</center></th>
+                <th><center>作者</center></th>
+                <th><center>标签</center></th>
+                <th><center>发表时间</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set articles = sorter.get() %}
+            {% for article in articles %}
+                <tr>
+                    <td><center><a href="{{url_for('article',article_id=article.id)}}">{{article.title}}</a></center></td>
+                    <td><center><a href="{{url_for('user',user_id=article.user.id)}}">{{article.user.nickname}}</a></center></td>
+                    {% set tag_list = article.tags.split(',') %}
+                    <td>{% for tag in tag_list[:3] %}<span class="am-badge fa fa-tags" style="border-radius:10px"> {{tag}}</span>&nbsp;{% endfor %}</td>
+                    <td><center>{{tool.pretty_time(article.public_time)}}</center></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </hr>
+    {{sorter.get_html()|safe}}
+</div>
+{% endblock %}

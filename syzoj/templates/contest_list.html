@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block contest_tab %} am-active {% endblock %}
+{% block body %}
+<div class="amz-banner">
+    <div class="am-scrollspy-init am-scrollspy-inview " style="padding-top:36px;padding-bottom:36px;color:white;background-color:#00BFFF">
+  <div class="am-container" style="margin: 0 auto; text-align: center">
+      <img src="{{url_for('static',filename='./img/syzoj-logo.png')}}" style="height:125px">
+      <h1 style="margin-top:5px;margin-bottom:6px;font-size:30px;font-weight:360">比赛列表</h1>
+      <ruby style="font-size:10px">纸上得来终觉浅<rt>Have fun Okay~</rt>,绝知此事要躬行</ruby>
+</div>
+    </div>
+        </div>
+    </div>
+</div>
+    <br>
+<div class="am-container am-g">
+    <div class="am-u-sm-12">
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th><center>比赛名称</center></th>
+                <th><center>开始时间</center></th>
+                <th><center>结束时间</center></th>
+                <th><center>比赛介绍</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set contests = sorter.get() %}
+            {% for contest in contests %}
+            <tr>
+                {% if now < contest.start_time %}
+                {% set tag = '<span class="am-badge am-badge-success">未开始</span>' %}
+                {% elif contest.is_running() %}
+                {% set tag = '<span class="am-badge am-badge-warning">进行中</span>' %}
+                {% else %}
+                {% set tag = '<span class="am-badge am-badge-danger">已结束</span>' %}
+                {% endif %}
+
+                <td width = "150" align = "center" ><a href="{{url_for('contest',contest_id=contest.id)}}">{{contest.title}}</a></td>
+                <td width = "180" align = "center" >{{ tool.pretty_time(contest.start_time) }}{{ tag|safe }} </span> </td>
+                <td width = "170" align = "center" >{{ tool.pretty_time(contest.end_time) }}</td>
+                <td>{{ contest.information }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr/>
+    {{sorter.get_html()|safe}}
+</div>
+{% endblock %}

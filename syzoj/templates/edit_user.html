@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block body %}
+    <br>
+<div class="am-container am-g">
+	<div class="am-u-sm-12">
+		<h1>修改资料</h1>
+        <div class="am-alert {%if status==1 %}am-alert-success{%else%}am-alert-danger{%endif%}  am-u-sm-12" id="error" data-am-alert
+        {% if not status %}hidden{%endif%}>
+            {% if status==1 %}
+            	<p id="error_info">修改成功</p>
+            {% elif status==3001 %}
+            	<p id="error_info">邮箱格式错误</p>
+            {% elif status==3002 %}
+            	<p id="error_info">原密码错误...不要偷偷改别人密码哦</p>
+            {% elif status==3003%}
+            	<p id="error_info">新密码不得为空</p>
+            {% else %}
+            	<p id="error_info">未知状态</p>
+            {% endif %}
+        </div>
+		<form class="am-form am-form-horizontal" action="{{url_for('edit_user',user_id=edited_user.id)}}" method="post" onsubmit="return check()">
+		    <div class="am-form-group">
+		    	<label class="am-u-sm-2 am-form-label">邮箱</label>
+		    	<div class="am-u-sm-10">
+		    		<input type="email" name="email" value="{{edited_user.email}}">
+		    	</div>
+		    </div>
+		    <div class="am-form-group">
+		    	<label class="am-u-sm-2 am-form-label">个性签名</label>
+		    	<div class="am-u-sm-10">
+		    		<textarea rows="5" name="information">{% if edited_user.information %}{{edited_user.information}}{%else%}泥萌看什么看，{{edited_user.nickname}}什么都没有说{%endif%}</textarea>
+		    	</div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-u-sm-2 am-form-label">修改密码</label>
+                <div class="am-u-sm-10">
+                    <fieldset class="am-form-set">
+                        <input type="password" placeholder="原密码(留空则不修改)" name="old_password" id="old_password">
+                        <input type="password" placeholder="新密码" name="new_password" id="password1">
+                        <input type="password" placeholder="再输入一遍新密码" id="password2">
+                    </fieldset>
+                </div>
+            </div>
+            {% if user and not user.have_privilege(1) %}
+            <fieldset disabled>
+            {% endif %}
+            <div class="am-form-group">
+		    	<label class="am-u-sm-2 am-form-label">修改权限</label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="prb_mng" value="cyszsd" {% if edited_user.have_privilege(2) %}checked{% endif %}> 题目管理 </label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="vwa_prb" value="cyszsd" {% if edited_user.have_privilege(3) %}checked{% endif %}> 浏览权限 </label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="cts_mng" value="cyszsd" {% if edited_user.have_privilege(4) %}checked{% endif %}> 比赛管理 </label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="cts_bld" value="cyszsd" {% if edited_user.have_privilege(5) %}checked{% endif %}> 比赛创建 </label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="atc_mng" value="cyszsd" {% if edited_user.have_privilege(6) %}checked{% endif %}> 文章管理 </label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="usr_mng" value="cyszsd" {% if edited_user.have_privilege(7) %}checked{% endif %}> 用户管理 </label>
+                <label class="am-checkbox-inline"><input type="checkbox" name="dat_dld" value="cyszsd" {% if edited_user.have_privilege(8) %}checked{% endif %}> 下载数据 </label>
+            </div>
+            {% if user and not user.have_privilege(1) %}
+            </fieldset>
+            {% endif %}
+            <div class="am-form-group">
+                <div class="am-u-sm-10 am-u-sm-offset-2">
+                    <button class="am-btn am-btn-default">修改</button>
+                </div>
+            </div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+function make_md5(tag){
+	if(tag.val()){
+		tag.val($.md5(tag.val()+"syzoj2_xxx"));
+	}
+}
+function check(){
+	old_password=$("#old_password");
+	password1=$("#password1");
+	password2=$("#password2");
+
+	if($("#old_password").val() && password1.val()!=password2.val()){
+		$("#error_info").html("两次密码不一样");
+		$("#error").show();
+		$("#error_info").show();
+		return false;
+	}
+
+	make_md5(old_password);
+	make_md5(password1);
+	make_md5(password2);
+	return true;
+}
+</script>
+{% endblock %}

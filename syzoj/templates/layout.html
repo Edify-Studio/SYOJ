@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>SYOJ</title>
+    <link rel="shortcut icon" href="{{url_for('static',filename='syzoj_32.ico')}}" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- For 360 browser -->
+        <script src="http://apps.bdimg.com/libs/Chart.js/0.2.0/Chart.min.js"></script>
+    <meta name="renderer" content="webkit">
+    <!-- For Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='amazeui.min.css') }} ">
+    <style type="text/css">
+        .am-container {
+        width: 980px !important;
+        max-width: none;
+        }
+        .nav-link{
+        color: #fff;
+        }
+        .icon-48{
+            width: 36px;
+            height: 36px;
+        }
+        textarea,body{
+            text-rendering: auto;
+        }
+    </style>
+</head>
+
+<body class="am-with-topbar-fixed-top">
+<header class="am-topbar am-topbar-fixed-top">
+    <div class="am-container">
+        <h1 class="am-topbar-brand">
+            <a href="{{ url_for('index') }}"><img src="{{url_for('static',filename='syzoj-logo.png')}}" class="icon-48">SYOJ</a>
+        </h1>
+
+        <div class="am-topbar-collapse">
+            <div class="am-topbar-left">
+                <ul class="am-nav am-nav-pills am-topbar-nav">
+                    <li class="{% if tab=='home'%}am-active{% endif %}"><a href="{{ url_for('index') }}" class="nav-link fa fa-home"> 首页</a></li>
+                    <li class="{% block contest_tab %}{% endblock %}"><a href="{{ url_for('contest_list') }}" class="nav-link fa fa-flag"> 比赛</a>
+                    </li>
+                    <li class="{% if tab=='discussion'%}am-active{% endif %}"><a href="{{url_for('discussion')}}" class="nav-link fa fa-weixin"> 讨论</a></li>
+                </ul>
+            </div>
+    <form class="am-form-inline am-u-sm-4 " role="form" method="get" action="{{url_for('problem_set')}}" style="margin:7px 0px 0px 0px;">
+        <div class="am-form-group am-fl">
+            <input type="text" class="am-form-field am-input-sm" name="problem_title" placeholder="题目关键字", value="{% if problem_title %}{{problem_title}}{% endif %}">
+        </div>
+        <button type="submit" class="am-btn am-btn-primary am-input-sm am-fl">搜索</button>
+    </form>
+            {% set user=tool.get_cur_user() %}
+            {% if user %}
+            <div class="am-topbar-right">
+                <ul class="am-nav am-nav-pills am-topbar-nav">
+                    <li class="am-dropdown" data-am-dropdown>
+                        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                            {{user.nickname}} <span class="am-icon-caret-down"></span>
+                        </a>
+                        <ul class="am-dropdown-content">
+                            <li><a href="{{url_for('user',user_id=user.id)}}"><span class="am-icon-user"></span> 资料</a></li>
+                            <li><a href="{{url_for('edit_user',user_id=user.id)}}"><span class="am-icon-cog"></span> 设置</a></li>
+                            <li><a href="#" id="logout"><span class="am-icon-power-off"></span> 注销</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            {% else %}
+            <div class="am-topbar-right">
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"
+                        onclick="window.location.href='{{ url_for('login')}}'">登录
+                </button>
+                <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"
+                        onclick="window.location.href='{{ url_for('sign_up') }}'">注册
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+{% block body %}
+{% endblock %}
+    <div class="waifu" style="width: 400px;position: fixed;bottom: 0px;right: 25px;font-size: 0;line-height: 0;z-index: 100;">
+        <div class="waifu-tips"></div>
+        <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='amazeui.min.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery.ext.js') }}"></script>
+
+<script src="{{ url_for('static', filename='prettify.js') }}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='prettify.css') }}" type="text/css"/>
+
+
+    <script src="{{ url_for('static', filename='waifu-tips.js') }}"></script>
+    <script src="{{ url_for('static', filename='live2d.js') }}"></script>
+    <script type="text/javascript">initModel("assets/")</script>
+<script type="text/javascript">
+function logout(){
+    //alert($.cookie("session_id"));
+    url='/api/logout?session_id='+$.cookie("session_id");
+    url=encodeURI(url);
+    $.ajax({
+        url : url,
+        type : 'POST',
+        async:false,
+    });
+}
+$("#logout").click(function(){
+    logout();
+    alert("我早已习惯你不在身边，\n人间四月天 寂寞断了弦。\n回望身后蓝天，\n跟再见说再见……\n  --《貂蝉》");
+    window.location.href="{{url_for('login')}}";
+});
+$(document).ready(function(){
+    $("pre").addClass("prettyprint");
+    prettyPrint();
+});
+</script>
+{% block script %}{% endblock %}
+
+<footer data-am-widget="footer" class="am-footer am-footer-default">
+    <div class="am-footer-miscs ">
+       <p>CopyRight©2018 郑州市第十一中学 | Edify Studio.<a href="http://www.miibeian.gov.cn/" target="_blank">豫ICP备15011071号</a></p>
+    </div>
+    <div class="am-footer-miscs ">
+       <p>Powered by <a href="https://github.com/Chenyao2333/syzoj" target="_blank">SYOJ</a>.</p>
+    </div>
+</footer>
+</body>
+</html>

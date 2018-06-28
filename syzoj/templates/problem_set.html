@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="amz-banner">
+    <div class="am-scrollspy-init am-scrollspy-inview " style="padding-top:36px;padding-bottom:36px;color:white;background-color:#00BFFF">
+  <div class="am-container" style="margin: 0 auto; text-align: center">
+      <img src="{{url_for('static',filename='./img/syzoj-logo.png')}}" style="height:125px">
+      <h1 style="margin-top:5px;margin-bottom:6px;font-size:30px;font-weight:360">在线题库</h1>
+      <ruby style="font-size:10px">纸上得来终觉浅<rt>Have fun Okay~</rt>,绝知此事要躬行</ruby>
+</div>
+    </div>
+        </div>
+    </div>
+</div>
+    <br>
+<div class="am-container">
+    <form class="am-form-inline am-u-sm-8 " role="form" method="get" action="{{url_for('problem_set')}}">
+        <div class="am-form-group am-fl">
+            <input type="text" class="am-form-field am-input-sm" name="problem_title" placeholder="题目关键字", value="{% if problem_title %}{{problem_title}}{% endif %}">
+        </div>
+        <button type="submit" class="am-btn am-btn-primary am-input-sm am-fl">搜索</button>
+    </form>
+    <div class="am-u-sm-4">
+        <a href="{{url_for('edit_problem',problem_id=0)}}" class="am-btn am-btn-primary am-btn-sm am-fr fa fa-sticky-note"> 添加题目</a>
+    </div>
+    <div class="am-u-sm-12">
+
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th width = 30><center></center></th>
+                <th><center>编号</center></th>
+                <th>题目名称</th>
+                <th>标签</th>
+                <th><center>通过</center></th>
+                <th><center>提交</center></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if user %}
+            {% set submitted_problem = user.get_submitted_problems() %}
+            {% endif %}
+            {% for problem in problems %}
+                {% if problem.is_allowed_use(user) %}
+                <tr>
+                    {% if user and problem.id in submitted_problem %}
+                    {% if submitted_problem[problem.id][0] == True %}
+                    <td width = 30><center><a href="{{url_for('judge_detail', judge_id = submitted_problem[problem.id][1])}}"><span class = "am-icon-check am-success"></span></center></td>
+                    {% else %}
+                    <td width = 30><center><a href="{{url_for('judge_detail', judge_id = submitted_problem[problem.id][1])}}"><span class = "am-icon-close am-warning"></span></center></a></td>
+                    {% endif %}
+                    {% else %}
+                    <td width = 30><center></center></td>
+                    {% endif %}
+                    <td width = 60><center>{{problem.id}}</center></td>
+                    <td><a href="{{url_for('problem',problem_id=problem.id)}}">{{problem.title}}{% if not problem.is_public %}--[未审核]{% endif %}</a></td>
+                    {% set tag_list = problem.tags.split(',') %}
+                    <td>{% for tag in tag_list[:3] %}<span class="am-badge fa fa-tags" style="border-radius:10px"> {{tag}}</span>&nbsp;{% endfor %}</td>
+                    <td width = 80><center>{{problem.ac_num}}</center></td>
+                    <td width = 80><center>{{problem.submit_num}}</center></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </hr>
+    {{sorter.get_html()|safe}}
+</div>
+{% endblock %}
