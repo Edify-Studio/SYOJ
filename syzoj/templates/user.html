@@ -72,6 +72,14 @@
 				{% endfor %}
 	  		</div>
 	  	</div>
+		<div class="am-panel am-panel-default">
+			<div class="am-panel-hd">Ta的收藏夹</div>
+			<div class="am-panel-bd">
+				{% for problem in stars %}
+				<a href="{{url_for('problem',problem_id=problem.id)}}">{{problem.title}}</a>
+				{% endfor %}
+	  		</div>
+	  	</div>
 	</div>
 </div>
 {% endblock %}

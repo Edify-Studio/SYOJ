@@ -57,7 +57,7 @@ def edit_article(article_id):
 
         article.title = request.form.get("title")
         article.content = request.form.get("content")
-        article.tags = request.form.get("tags"),
+        article.tags = request.form.get("tags")
         article.update_time = time.time()
         article.sort_time = time.time()
         article.save()

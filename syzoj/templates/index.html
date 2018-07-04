@@ -14,7 +14,7 @@
                 </ul>
             </div>
             <div class="am-topbar-right">
-                <button title="敬请期待" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">提问</button>
+                <button title="敬请期待" onclick="wait()" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">提问</button>
             </div>
         </div>
             {% if user %}
@@ -25,15 +25,21 @@
             {% if user and problem.id in submitted_problem %}
                 &nbsp;
             {% else %}
-              {% set tag_list = problem.tags.split(',') %}
+            {% set tag_list = problem.tags %}
+            {% if tag_list != None %}
+                {% set tag_list = problem.tags.split(',') %}
+            {% endif %}
         <div class="am-panel am-panel-default am-u-sm-12">
             <div class="am-panel-bd am-topbar-nav">
                 <p class="fa fa-tags" style="color:#808080;margin:5px 0px 10px 5px;"> 来自标签：{% for tag in tag_list[:5] %}<span class="am-badge fa fa-tags" style="border-radius:10px"> {{tag}}</span>&nbsp;{% endfor %}</p>
                 <a href="{{url_for('problem',problem_id=problem.id)}}"><h2 style="margin:5px 0px 10px 5px;"><span class="fa fa-pencil-square-o" ></span> {{problem.title}}{% if not problem.is_public %}--[未审核]{% endif %}</h2></a>
                 <p style="margin:5px 0px 10px 5px;">{{problem.description[:50]}}</p>
-                    <a title="敬请期待" style="padding:8px 8px 8px 8px;" class="fa fa-heart am-btn am-btn-primary"> 101</a>&nbsp;&nbsp;
-                    <a title="敬请期待" class="fa fa-star"> 收藏</a>&nbsp;&nbsp;
-                    <a title="敬请期待" class="fa fa-list"> FAQ</a>
+                    {% if problem.is_in_stared(user) %}
+                    <a href="{{url_for('unstar_problem',problem_id=problem.id)}}" style="padding:8px 8px 8px 8px;" class="fa fa-star am-btn am-btn-primary"> 已收藏</a>&nbsp;&nbsp;
+                    {% else %}
+                    <a href="{{url_for('star_problem',problem_id=problem.id)}}" style="padding:8px 8px 8px 8px;" class="fa fa-star am-btn am-btn-primary"> 收藏</a>&nbsp;&nbsp;
+                    {% endif %}
+                    <a onclick="wait()" class="fa fa-list"> FAQ</a>
             </div>
         </div>
         {% endif %}
@@ -55,23 +61,22 @@
           </div>
   <div class="am-list-news-bd">
   <ul class="am-list">
+      {% for n in notice[:5] %}
       <li class="am-g am-list-item-desced">
-          <a href="http://www.douban.com/online/11614662/" class="am-list-item-hd ">内心永远是彩虹色！</a>
-          <div class="am-list-item-text">多田君寻妻记...</div>
+          <a href="{{url_for('notice',notice_id=n.id)}}" class="am-list-item-hd ">{{ n.title }}</a>
+          <div class="am-list-item-text">{{ n.content[:20] }}...</div>
       </li>
-      <li class="am-g am-list-item-desced">
-          <a href="http://www.douban.com/online/11624755/" class="am-list-item-hd ">SYOJ７月月赛</a>
-          <div class="am-list-item-text">推迟举行了QAQ...</div>
-      </li>
-      <li class="am-g am-list-item-desced">
-          <a href="http://www.douban.com/online/11645411/" class="am-list-item-hd ">关于站长LDL于本年度BML场地猥亵幼女的处理通告</a>
-          <div class="am-list-item-text">我站深表遗憾...</div>
-      </li>
+      {% endfor %}
   </ul>
   </div>
   </div>
         </div>
     </div>
 </div>
+    <script>
+        function wait(){
+            alert("敬请期待！")
+        }
+    </script>
     {{sorter.get_html()|safe}}
 {% endblock %}

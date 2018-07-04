@@ -95,3 +95,50 @@ class Comment(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
+class Notice(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80))
+    content = db.Column(db.Text)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), index=True)
+    user = db.relationship("User", backref=db.backref("notices", lazy='dynamic'))
+
+    public_time = db.Column(db.Integer)  # goodbye at 2038-1-19
+    update_time = db.Column(db.Integer)
+    sort_time = db.Column(db.Integer, index=True)
+
+    tags = db.Column(db.Text)
+
+    comments_num = db.Column(db.Integer)
+    allow_comment = db.Column(db.Boolean)
+
+    def __init__(self, title, content, user, allow_comment=True, public_time=None):
+        if not public_time:
+            public_time = int(time.time())
+        self.title = title
+        self.content = content
+        self.user = user
+        self.public_time = public_time
+        self.update_time = public_time
+        self.sort_time = public_time
+        self.comments_num = 0
+        self.allow_comment = allow_comment
+
+    def __repr__(self):
+        return "<Notice %r>" % self.title
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def is_allowed_edit(self, user=None):
+        if user.have_privilege(1):
+            return True
+        if not user:
+            return False
+        return False

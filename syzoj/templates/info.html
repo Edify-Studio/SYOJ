@@ -16,22 +16,12 @@
 		            </tr>
 		            </thead>
 		            <tbody>
+					{% for n in notice[:5] %}
 		                <tr>
-		                    <td><a href="article/1">SYZOJ使用指南</a></td>
-		                    <td>2015-8-10</td>
+		                    <td><a href="{{url_for('notice',notice_id=n.id)}}">{{ n.title }}</a></td>
+		                    <td>2018-09-04</td>
 		                </tr>
-		                <tr>
-		                    <td><a href="article/7">题目分类列表</a></td>
-		                    <td>2015-09-04</td>
-		                </tr>
-		                <tr>
-		                    <td><a href="article/6">如何添加题目</a></td>
-		                    <td>2015-09-04</td>
-		                </tr>
-		                <tr>
-		                    <td><a href="article/21">mask、include、wuguangzhao等同学注意注意</a></td>
-		                    <td>2015-09-19</td>
-		                </tr>
+					{% endfor %}
 		            </tbody>
 		        </table>
 			</div>

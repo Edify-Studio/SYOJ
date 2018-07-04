@@ -1,12 +1,13 @@
 from syzoj.models import User, Problem
 from urllib import parse
 import time, re
+import datetime
 
 
 class Tools(object):
     @staticmethod
     def pretty_time(t):
-        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
+        return datetime.datetime.now()
 
     @staticmethod
     def to_str(s):

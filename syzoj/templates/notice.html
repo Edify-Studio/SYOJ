@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<br>
+<style type="text/css">
+    .small{
+    font-size: 0.7em;
+    }
+</style>
+<div class="am-container am-g">
+	<div class="am-u-sm-12">
+ 		<h1>{{notice.title}}</h1>
+ 		<p class="small"><img src="{{notice.user.get_gravatar_url(16)}}">
+ 			<a href="{{url_for('user',user_id=notice.user.id)}}">{{notice.user.nickname}}</a>
+ 			{% if notice.user.nameplate %}{{notice.user.nameplate|safe}}{% endif %} 于{{tool.pretty_time(notice.public_time)}}发表,{{tool.pretty_time(notice.update_time)}}最后更新
+ 			{% if notice.is_allowed_edit(user) %}
+            <a class="" href="{{ url_for('delete_notice',notice_id=notice.id) }}">删除公告</a>
+        	<a class="am-btn am-btn-success am-btn-sm am-fr" href="{{url_for('edit_notice',notice_id=notice.id)}}">编辑公告</a>
+        	{% endif %}
+ 		</p>
+	</div>
+    <div class="am-u-sm-12">
+	    <div class="am-panel am-panel-default">
+	        <div class="am-panel-bd" id="content">{{notice.content}}</div>
+	    </div>
+    </div>
+    <hr/>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- KaTex -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min.js"></script>
+<!-- KaTex autoRender -->
+<script src="{{ url_for('static', filename='auto-render.js') }}"></script>
+
+<script src="{{ url_for('static', filename='marked.js') }}"></script>
+<script type="text/javascript">
+function render(tag){
+    tag.html(marked(tag.html()));
+}
+marked.setOptions({
+  highlight: function (code) {
+    return "<code>"+code+"</code>";
+  }
+});
+$(document).ready(function(){
+    render($("#content"));
+    $("pre").addClass("prettyprint");
+    prettyPrint();
+    renderMathInElement(document.getElementById("content"));
+});
+</script>
+{% endblock %}

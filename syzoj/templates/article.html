@@ -40,9 +40,11 @@
                 </div>
                 <div class="am-u-sm-7">{{ comment.content }}</div>
                 <div class="am-u-sm-2">
+                    {% if comment.user.nickname == user.nickname %}
                     <a href="{{url_for('delete_comment',comment_id=comment.id)}}">删除</a>
-                    <br><a href="#" onclick="double_comment({{ comment.id }})">回复</a>
-                    <br><a>举报</a>
+                    {% set comment_username = comment.user.nickname %}
+                    <br><a href="#" onclick="double_comment({{ comment.id }},{{ comment.user_id }})">回复</a>
+                    {% endif %}
                 </div>
                 <div class="am-u-sm-7" id="{{ comment.id }}"></div>
                 <br>
@@ -103,9 +105,9 @@ $(document).ready(function(){
     prettyPrint();
     renderMathInElement(document.getElementById("content"));
 });
-function double_comment(id){
+function double_comment(id,name){
     a = document.getElementById(id);
-    a.innerHTML="<form class=\"am-form\" action=\"{{ url_for('comment_article', article_id=article.id) }}\" method=\"post\"><textarea rows=\"3\" name=\"comment\">Reply @User: Comming to soon...</textarea></div><button type=\"submit\" class=\"am-btn am-btn-primary\">发表回复</button></form><br>";
+    a.innerHTML="<form class=\"am-form\" action=\"{{ url_for('comment_article', article_id=article.id) }}\" method=\"post\"><textarea rows=\"3\" name=\"comment\">Reply @"+name+":</textarea></div><button type=\"submit\" class=\"am-btn am-btn-primary\">发表回复</button></form><br>";
 }
 </script>
 {% endblock %}

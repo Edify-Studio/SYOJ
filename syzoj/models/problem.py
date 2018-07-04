@@ -1,6 +1,11 @@
 from syzoj import db
 from syzoj.models.file import File
 
+star_table = db.Table('star_table',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('problem_id', db.Integer, db.ForeignKey('problem.id', ondelete='CASCADE'),  primary_key=True)
+)
+
 
 class Problem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -18,7 +23,7 @@ class Problem(db.Model):
     time_limit = db.Column(db.Integer)
     memory_limit = db.Column(db.Integer)
 
-    star = db.relationship("User", backref=db.backref('stars', lazy='dynamic'))
+    stared = db.relationship("User", secondary=star_table, backref=db.backref('stars', lazy='dynamic'))
 
     testdata_id = db.Column(db.Integer, db.ForeignKey("file.id"))
     testdata = db.relationship("File", backref=db.backref('problems', lazy='dynamic'))
@@ -28,7 +33,6 @@ class Problem(db.Model):
     ac_num = db.Column(db.Integer)
     submit_num = db.Column(db.Integer)
     is_public = db.Column(db.Boolean)
-    # started = db.relationship("Started",backref=db.backref('starteds', lazy='dynamic'))
 
     def __init__(self, title, user,
                  description="", input_format="", output_format="", example="", limit_and_hint="",
@@ -87,6 +91,11 @@ class Problem(db.Model):
         if self.user_id == user.id or user.have_privilege(3) or user.have_privilege(2):
             return True
         return False
+
+    def is_in_stared(self, user=None):
+        if user not in self.stared:
+            return False
+        return True
 
     def set_is_public(self, public):
         self.is_public = public

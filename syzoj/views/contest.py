@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+from datetime import date
+from datetime import datetime
+from datetime import time
 from urllib import parse
 import time
 from flask import render_template, url_for, request, abort, redirect
@@ -17,7 +19,7 @@ def contest_list():
         return url_for("contest_list") + "?" + parse.urlencode({"page": page})
 
     sorter = Paginate(query, make_url=make_url, cur_page=request.args.get("page"), edge_display_num=3, per_page=10)
-    return render_template("contest_list.html", tool=Tools, sorter=sorter, now=time.time())
+    return render_template("contest_list.html", tool=Tools, sorter=sorter, now=datetime.now())
 
 
 @oj.route("/contest/<int:contest_id>")
@@ -25,7 +27,7 @@ def contest(contest_id):
     contest = Contest.query.filter_by(id=contest_id).first()
     user = User.get_cur_user()
 
-    now = time.time()
+    now = datetime.now()
     if now < contest.start_time and not contest.is_allowed_edit(user):
         return not_have_permission()
 
@@ -55,7 +57,7 @@ def contest_problem(contest_id, kth_problem):
     if not contest:
         abort(404)
 
-    now = time.time()
+    now = datetime.now()
     if now < contest.start_time and not contest.is_allowed_edit(user):
         return not_have_permission()
 
@@ -72,7 +74,7 @@ def contest_ranklist(contest_id):
     contest = Contest.query.filter_by(id=contest_id).first()
     if not contest:
         abort(404)
-    now = time.time()
+    now = datetime.now()
     if contest.is_allowed_edit(user) or now > contest.end_time:
         return render_template("contest_ranklist.html", tool=Tools, contest=contest)
     else:
@@ -86,21 +88,26 @@ def edit_contest(contest_id):
         return need_login()
 
     contest = Contest.query.filter_by(id=contest_id).first()
+
     if contest and not contest.is_allowed_edit(user):
         return not_have_permission()
     elif not (user.have_privilege(4) or user.have_privilege(5)):
         return not_have_permission()
 
     if request.method == "POST":
+        start = [int(pid) for pid in request.form.get("start_time").split(",")]
+        start_time = datetime(start[0], start[1], start[2], start[3], start[4])
+        end = [int(pid) for pid in request.form.get("end_time").split(",")]
+        end_time = datetime(end[0], end[1], end[2], end[3], end[4])
         if not contest:
             contest = Contest(title=request.form.get("title"),
-                              start_time=request.form.get("start_time"),
-                              end_time=request.form.get("end_time"),
+                              start_time=start_time,
+                              end_time=end_time,
                               holder=user)
 
         contest.title = request.form.get("title")
-        contest.start_time = request.form.get("start_time")
-        contest.end_time = request.form.get("end_time")
+        contest.start_time = start_time
+        contest.end_time = end_time
         contest.information = request.form.get("information")
 
         try:

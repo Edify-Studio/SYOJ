@@ -15,11 +15,10 @@ def user(user_id):
     user.refresh_submit_info()
     user.save()
 
-    articles = Article.query.filter_by(user_id = user.id).order_by(Article.public_time.desc()).all()
+    articles = Article.query.filter_by(user_id=user.id).order_by(Article.public_time.desc()).all()
     articles_num = len(articles)
-
-    return render_template("user.html", tool=Tools, shown_user=user,
-                            articles_num = articles_num, articles = articles)
+    stars = user.stars.all()
+    return render_template("user.html", tool=Tools, shown_user=user, articles_num=articles_num, articles=articles, stars=stars)
 
 
 @oj.route("/user/<int:user_id>/edit", methods=["GET", "POST"])

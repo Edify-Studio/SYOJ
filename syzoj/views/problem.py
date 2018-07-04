@@ -8,7 +8,7 @@ from flask import jsonify, redirect, url_for, abort, request, render_template
 
 from sqlalchemy import or_
 from syzoj import oj, controller
-from syzoj.models import User, Problem, File, FileParser
+from syzoj.models import User, Problem, File, FileParser, Notice
 from syzoj.controller import Paginate, Tools
 from .common import need_login, not_have_permission, show_error
 
@@ -29,7 +29,7 @@ def problem_set():
         
     sorter = Paginate(query, make_url=make_url, other={"problem_title": problem_title},
             cur_page=request.args.get("page"), edge_display_num=50, per_page=50)
-    return render_template("problem_set.html", tool=Tools, tab="problem_set", sorter=sorter, problems=sorter.get())
+    return render_template("problem_set.html", tool=Tools, tab="problem_set", sorter=sorter, problems=sorter.get(), problem_title=problem_title)
 
 
 @oj.route("/problem/<int:problem_id>")
@@ -65,8 +65,7 @@ def edit_problem(problem_id):
                        input_format=request.form.get("input_format"),
                        output_format=request.form.get("output_format"),
                        example=request.form.get("example"),
-                       tags=request.form.get("tags"),
-                       p_tags=[str(tag) for tag in request.form.get("tags").split(",")],
+                       tags=request.form.get("tags") ,
                        limit_and_hint=request.form.get("limit_and_hint"))
 
         problem.save()
@@ -74,6 +73,28 @@ def edit_problem(problem_id):
         return redirect(url_for("problem", problem_id=problem.id))
     else:
         return render_template("edit_problem.html", tool=Tools, problem=problem)
+
+
+@oj.route("/problem/<int:problem_id>/star")
+def star_problem(problem_id):
+    user = User.get_cur_user()
+    problem = Problem.query.filter_by(id=problem_id).first()
+    if not problem:
+        abort(404)
+    problem.stared.append(user)
+    problem.save()
+    return redirect(url_for("problem", problem_id=problem_id))
+
+
+@oj.route("/problem/<int:problem_id>/unstar")
+def unstar_problem(problem_id):
+    user = User.get_cur_user()
+    problem = Problem.query.filter_by(id=problem_id).first()
+    if not problem:
+        abort(404)
+    problem.stared.remove(user)
+    problem.save()
+    return redirect(url_for("problem", problem_id=problem_id))
 
 
 @oj.route("/problem/<int:problem_id>/upload", methods=["GET", "POST"])
@@ -85,7 +106,7 @@ def upload_testdata(problem_id):
     problem = Problem.query.filter_by(id=problem_id).first()
     if not problem:
         abort(404)
-    if problem.is_allowed_edit(user) == False:
+    if problem.is_allowed_edit(user) is False:
         return not_have_permission()
     if request.method == "POST":
         file = request.files.get("testdata")

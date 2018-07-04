@@ -26,12 +26,12 @@
                 <textarea class="" rows="5" id="doc-ta-1" name="information">{% if contest %}{{ contest.information }}{% endif %}</textarea>
             </div>
             <div class="am-form-group">
-                <label>开始时间</label>
-                <input type="number" name="start_time" value="{% if contest %}{{ contest.start_time }}{% endif %}">
+                <label>开始时间（精确到秒，请用英文逗号","隔开）</label>
+                <input type="text" name="start_time" value="{% if contest %}{{ contest.start_time }}{% endif %}">
             </div>
             <div class="am-form-group">
-                <label>结束时间</label>
-                <input type="number" name="end_time" value="{% if contest %}{{ contest.end_time }}{% endif %}">
+                <label>结束时间（精确到秒，请用英文逗号","隔开）</label>
+                <input type="text" name="end_time" value="{% if contest %}{{ contest.end_time }}{% endif %}">
             </div>
             <button type="submit" class="am-btn am-btn-primary">提交</button>
         </form>
