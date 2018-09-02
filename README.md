@@ -33,7 +33,11 @@ sudo nohup python3 run.py &
 ```
 
 ##TODO LIST
+
 1.一个更为简单易用的syoj安装&管理脚本
+
 2.网站后台
+
 3.更加友好的前端交互设计
+
 4.网页响应式
