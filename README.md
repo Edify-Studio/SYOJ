@@ -32,7 +32,7 @@ cd SYOJ && sudo python3 install.py
 sudo nohup python3 run.py &
 ```
 
-##TODO LIST
+## TODO LIST
 
 1.一个更为简单易用的syoj安装&管理脚本
 
