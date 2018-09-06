@@ -47,6 +47,10 @@ chmod -x runner
 sudo nohup python judge.py &
 ```
 
+## 附:MySQL中文设置：
+```bash
+alter table XXX convert to character set utf8;
+```
 
 ## TODO LIST
 
@@ -57,6 +61,8 @@ sudo nohup python judge.py &
 3.更加友好的前端交互设计
 
 4.网页响应式
+
+5.注意：通知有权限Bug
 
 ## 特别鸣谢
 
