@@ -57,3 +57,10 @@ sudo nohup python judge.py &
 3.更加友好的前端交互设计
 
 4.网页响应式
+
+## 特别鸣谢
+
+[@TimHsue](https://github.com/TimHsue) 
+[@Kench](https://github.com/kench233) 
+[@北海若](#)
+[@Chenyao233](https://github.com/Chenyao2333)
