@@ -1,5 +1,5 @@
 # Hello SYOJ!
-> 一个开源的 OI/ACM/icpc在线测评平台
+> 一个开源的 OI/ACM/icpc在线测评平台,基于Flask版SYZOJ（https://github.com/Zhengzhou-11-Highschool/syzoj）二次开发
 
 ## 依赖项
 mysql
