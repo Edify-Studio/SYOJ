@@ -60,7 +60,7 @@ sudo nohup python judge.py &
 
 ## 特别鸣谢
 
-[@TimHsue](https://github.com/TimHsue) \n
+[@TimHsue](https://github.com/TimHsue) <br>
 [@Kench](https://github.com/kench233) 
 [@北海若](#)
 [@wanzzhehe](https://github.com/wanzzhehe)
