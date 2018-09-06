@@ -137,7 +137,7 @@ class Notice(db.Model):
         db.session.commit()
 
     def is_allowed_edit(self, user=None):
-        if user.have_privilege(1):
+        if user and user.have_privilege(1):
             return True
         if not user:
             return False
