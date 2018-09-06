@@ -4,6 +4,7 @@ import os
 import time
 import zipfile
 import urllib
+import urllib2
 import json
 import ExTJudger
 import codecs
@@ -25,7 +26,7 @@ if not os.path.isdir(_TESTDATA_DIR):
 def get_judge_task():
     global _GET_TASK_URL, _SESSION_ID
     url = _GET_TASK_URL + "?" + urllib.urlencode({"session_id": _SESSION_ID})
-    task = urllib.parse.urlopen(url).read()
+    task = urllib2.urlopen(url).read()
     return json.loads(task)
 
 
@@ -33,13 +34,13 @@ def upload_judge_result(result, judge_id):
     global _UPLOAD_TASK_URL, _SESSION_ID
     url = _UPLOAD_TASK_URL + "/" + str(judge_id) + "?" + urllib.urlencode({"session_id": _SESSION_ID})
     data = urllib.urlencode({"result": json.dumps(result)})
-    req = urllib.Request(url, data)
-    response = urllib.urlopen(req)
+    req = urllib2.Request(url, data)
+    response = urllib2.urlopen(req)
     return response.read()
 
 
 def download_file(url, des):
-    df = urllib.parse.urlopen(url)
+    df = urllib2.urlopen(url)
     with open(des, "a") as f:
         while True:
             data = df.read(4096)
@@ -200,10 +201,10 @@ def main():
 def test_connect_to_server():
     task = get_judge_task()
     testdata_dir = get_testdata_dir(task["testdata"])
-    print(task)
-    print(testdata_dir)
-    print(upload_judge_result({"status": "System Error", "score": 0, "total_time": 0, "max_memory": 0, "case_num": 0},
-                              task["judge_id"]))
+    print task
+    print testdata_dir
+    print upload_judge_result({"status": "System Error", "score": 0, "total_time": 0, "max_memory": 0, "case_num": 0},
+                              task["judge_id"])
 
 
 if __name__ == '__main__':
