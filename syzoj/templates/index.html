@@ -23,7 +23,6 @@
             {% for problem in problems %}
             {% if problem.is_allowed_use(user) %}
             {% if user and problem.id in submitted_problem %}
-                &nbsp;
             {% else %}
             {% set tag_list = problem.tags %}
             {% if tag_list != None %}
@@ -35,9 +34,9 @@
                 <a href="{{url_for('problem',problem_id=problem.id)}}"><h2 style="margin:5px 0px 10px 5px;"><span class="fa fa-pencil-square-o" ></span> {{problem.title}}{% if not problem.is_public %}--[未审核]{% endif %}</h2></a>
                 <p style="margin:5px 0px 10px 5px;">{{problem.description[:50]}}</p>
                     {% if problem.is_in_stared(user) %}
-                    <a href="{{url_for('unstar_problem',problem_id=problem.id)}}" style="padding:8px 8px 8px 8px;" class="fa fa-star am-btn am-btn-primary"> 已收藏</a>&nbsp;&nbsp;
+                    <a href="" onclick="wait()" style="padding:8px 8px 8px 8px;" class="fa fa-star am-btn am-btn-primary"> 已收藏</a>&nbsp;&nbsp;
                     {% else %}
-                    <a href="{{url_for('star_problem',problem_id=problem.id)}}" style="padding:8px 8px 8px 8px;" class="fa fa-star am-btn am-btn-primary"> 收藏</a>&nbsp;&nbsp;
+                    <a href="" onclick="wait()" style="padding:8px 8px 8px 8px;" class="fa fa-star am-btn am-btn-primary"> 收藏</a>&nbsp;&nbsp;
                     {% endif %}
                     <a onclick="wait()" class="fa fa-list"> FAQ</a>
             </div>
