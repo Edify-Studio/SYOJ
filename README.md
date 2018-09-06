@@ -38,7 +38,7 @@ sudo nohup python3 run.py &
 ```bash
 sudo python setup.py install
 ```
-2.给予 runner 运行权限
+2.给予 SYOJ/syzoj-judge/runner 运行权限
 ```bash
 chmod -x runner
 ```
