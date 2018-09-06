@@ -32,6 +32,22 @@ cd SYOJ && sudo python3 install.py
 sudo nohup python3 run.py &
 ```
 
+## 如何运行评测机
+
+1.安装Tjudger （https://github.com/TimHsue/TJudger）
+```bash
+sudo python setup.py install
+```
+2.给予 runner 运行权限
+```bash
+chmod -x runner
+```
+3.使用Python2运行judge.py
+```bash
+sudo nohup python judge.py &
+```
+
+
 ## TODO LIST
 
 1.一个更为简单易用的syoj安装&管理脚本
