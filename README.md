@@ -42,7 +42,7 @@ sudo python setup.py install
 ```bash
 chmod -x runner
 ```
-3.使用Python2运行judge.py
+#### 3.使用Python2运行judge.py
 ```bash
 sudo nohup python judge.py &
 ```
