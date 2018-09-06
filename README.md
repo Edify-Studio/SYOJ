@@ -61,8 +61,8 @@ sudo nohup python judge.py &
 ## 特别鸣谢
 
 [@TimHsue](https://github.com/TimHsue) <br>
-[@Kench](https://github.com/kench233) 
-[@北海若](#)
-[@wanzzhehe](https://github.com/wanzzhehe)
-[@Chenyao233](https://github.com/Chenyao2333)
+[@Kench](https://github.com/kench233)  <br>
+[@北海若](#) <br>
+[@wanzzhehe](https://github.com/wanzzhehe) <br>
+[@Chenyao233](https://github.com/Chenyao2333) <br>
 [@Nishikino_KKi](https://github.com/NishikinoKKi)
