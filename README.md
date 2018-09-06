@@ -1,5 +1,5 @@
 # Hello SYOJ!
-> 一个开源的 OI/ACM/icpc在线测评平台,基于Flask版SYZOJ（https://github.com/Zhengzhou-11-Highschool/syzoj） 二次开发
+> 一个开源的 OI/ACM/icpc在线测评平台,基于Flask版的开源项目SYZOJ（ https://github.com/Zhengzhou-11-Highschool/syzoj ） 二次开发 
 
 ## 依赖项
 mysql
@@ -34,7 +34,7 @@ sudo nohup python3 run.py &
 
 ## 如何运行评测机
 
-1.安装Tjudger （https://github.com/TimHsue/TJudger）
+1.安装Tjudger （https://github.com/TimHsue/TJudger ）
 ```bash
 sudo python setup.py install
 ```
