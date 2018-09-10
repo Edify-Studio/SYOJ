@@ -64,7 +64,9 @@ def edit_notice(notice_id):
     if not user:
         return need_login()
     notice = Notice.query.filter_by(id=notice_id).first()
-    if notice and notice.is_allowed_edit(user) is False:
+    if notice and not notice.is_allowed_edit(user):
+        return not_have_permission()
+    elif not (user.have_privilege(4) or user.have_privilege(5)):
         return not_have_permission()
 
     if request.method == "POST":
