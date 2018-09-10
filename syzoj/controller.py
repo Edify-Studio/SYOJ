@@ -1,8 +1,6 @@
 from syzoj.models import User, Problem
 from urllib import parse
 import time, re
-import datetime
-
 
 class Tools(object):
     @staticmethod
