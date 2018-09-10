@@ -49,7 +49,7 @@
             {%endif %}
         {% endif %}
     </div>
-    <div class="am-u-sm-8 am-topbar-left">
+    <div class="am-u-sm-12 am-topbar-left">
         <div class="am-panel am-panel-default" id="problem-panel">
     
             <div class="am-panel-hd"><h3 class="am-panel-title">题目描述</h3></div>
@@ -68,64 +68,6 @@
             <div class="am-panel-bd" id="hint">{{problem.limit_and_hint}}</div>
         </div>
     </div>
-	<div class="am-u-sm-4">
-		<div class="am-panel am-panel-default">
-		 	<div class="am-panel-hd">
-		   		<h3 class="am-panel-title">数据整合</h3>
-		 	</div>
-		 	<div class="am-panel-bd">
-                                                    <canvas id="ac" class="" style="width: 300px;height: 300px">
-<script >
-var data = [
-	{
-		value: 30,
-		color:"#F38630"
-	},
-	{
-		value : 50,
-		color : "#E0E4CC"
-	},
-	{
-		value : 100,
-		color : "#69D2E7"
-	}
-]
-                                            var ctx = document.getElementById("ac").getContext("2d");
-                                            var myNewChart = new Chart(ctx).Pie(data);
-Pie.defaults = {
-	//Boolean - Whether we should show a stroke on each segment
-	segmentShowStroke : true,
-	//String - The colour of each segment stroke
-	segmentStrokeColor : "#fff",
-	//Number - The width of each segment stroke
-	segmentStrokeWidth : 2,
-	//Boolean - Whether we should animate the chart
-	animation : true,
-	//Number - Amount of animation steps
-	animationSteps : 100,
-	//String - Animation easing effect
-	animationEasing : "easeOutBounce",
-	//Boolean - Whether we animate the rotation of the Pie
-	animateRotate : true,
-	//Boolean - Whether we animate scaling the Pie from the centre
-	animateScale : false,
-	//Function - Will fire on animation completion.
-	onAnimationComplete : null
-}
-</script>
-                                    </canvas>
-			</div>
-		</div>
-		<div class="am-panel am-panel-default">
-		 	<div class="am-panel-hd">
-		   		<h3 class="am-panel-title">相关题目</h3>
-		 	</div>
-		 	<div class="am-panel-bd">
-				<p>还没有举行过任何比赛</p>
-			</div>
-		</div>
-	</div>
-</div>
 
 {% endblock %}
 {% block script %}
