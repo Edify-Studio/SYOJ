@@ -7,8 +7,7 @@ import datetime
 class Tools(object):
     @staticmethod
     def pretty_time(t):
-        return datetime.datetime.now()
-
+        return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t))
     @staticmethod
     def to_str(s):
         return str(s)
