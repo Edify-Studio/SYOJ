@@ -2,7 +2,7 @@ from syzoj import db
 from syzoj.models.problem import Problem
 import time
 import json
-import datetime
+
 
 class ContestRanklist(db.Model):
     """
@@ -99,8 +99,8 @@ class ContestPlayer(db.Model):
 class Contest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
-    start_time = db.Column(db.DateTime)  # goodbye at 2038-1-19
-    end_time = db.Column(db.DateTime)
+    start_time = db.Column(db.Integer)  # goodbye at 2038-1-19
+    end_time = db.Column(db.Integer)
 
     holder_id = db.Column(db.Integer, db.ForeignKey("user.id"), index=True)
     holder = db.relationship("User", backref=db.backref("hold_contests", lazy='dynamic'))
@@ -152,7 +152,7 @@ class Contest(db.Model):
 
     def is_running(self, now=None):
         if not now:
-            now = datetime.datetime.now()
+            now = int(time.time())
         return self.start_time <= now and now <= self.end_time
 
     def get_ranklist(self):
