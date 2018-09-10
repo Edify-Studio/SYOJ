@@ -2,6 +2,7 @@ from syzoj.models import User, Problem
 from urllib import parse
 import time, re
 
+
 class Tools(object):
     @staticmethod
     def pretty_time(t):
