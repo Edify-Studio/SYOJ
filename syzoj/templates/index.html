@@ -22,7 +22,7 @@
             {% endif %}
             {% for problem in problems %}
             {% if problem.is_allowed_use(user) %}
-            {% if user and problem.id in submitted_problem %}
+            {% if user and problem.id in submitted_problem and submitted_problem[problem.id][0] == True %}
             {% else %}
             {% set tag_list = problem.tags %}
             {% if tag_list != None %}
