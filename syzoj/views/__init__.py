@@ -37,9 +37,7 @@ def index():
         other["page"] = page
         return url_for("problem_set") + "?" + parse.urlencode(other)
 
-    sorter = Paginate(query, make_url=make_url, other={"problem_title": problem_title},
-                      cur_page=request.args.get("page"), edge_display_num=50, per_page=50)
-    return render_template("index.html", tool=Tools, tab="home", sorter=sorter, problems=sorter.get(), notice=notice)
+    return render_template("index.html", tool=Tools, tab="home", problems=query, notice=notice)
 
 
 @oj.route("/info")
@@ -66,7 +64,8 @@ def edit_notice(notice_id):
     notice = Notice.query.filter_by(id=notice_id).first()
     if notice and not notice.is_allowed_edit(user):
         return not_have_permission()
-    elif not (user.have_privilege(4) or user.have_privilege(5)):
+    elif not (user.have_privilege(4) or user.have_privilege(
+    )):
         return not_have_permission()
 
     if request.method == "POST":
