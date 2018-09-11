@@ -81,7 +81,7 @@ class ContestPlayer(db.Model):
         score_details[pid]["score"] = score
         score_details[pid]["judge_id"] = judge_id
         score_details["score"] = 0
-        for key, val in score_details.iteritems():
+        for key, val in score_details.items():
             if isinstance(val, dict):
                 score_details["score"] += val["score"]
         self.score = score_details["score"]
