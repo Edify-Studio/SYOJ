@@ -69,7 +69,7 @@ function login(){
     $.ajax({
         url : "/api/login",
         type : 'POST',
-        data:{"email":$("#email").val(),"password":password},
+        data:{"username":$("#username").val(),"password":password},
         async:false,
         success : function(data) {
             error_code=data.error_code;
