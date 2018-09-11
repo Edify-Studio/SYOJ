@@ -31,7 +31,7 @@ def api_login():
     session_id = "???"
     username = request.args.get('username')
     password = request.form.get('password')
-    user = User.query.filter_by('username').first()
+    user = User.query.filter_by(username=username).first()
     if not user:
         error_code = 1001
     elif user.password != password:
