@@ -29,7 +29,7 @@ def api_sign_up():
 def api_login():
     error_code = 1
     session_id = "???"
-    username = request.args.get('username')
+    username = request.form.get('username')
     password = request.form.get('password')
     user = User.query.filter_by(username=username).first()
     if not user:
