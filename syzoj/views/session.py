@@ -29,9 +29,9 @@ def api_sign_up():
 def api_login():
     error_code = 1
     session_id = "???"
-    email = request.form.get('email')
+    username = request.args.get('username')
     password = request.form.get('password')
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by('username').first()
     if not user:
         error_code = 1001
     elif user.password != password:
