@@ -34,7 +34,7 @@ def contest(contest_id):
     if user: player = contest.players.filter_by(user_id = user.id).first()
     if player:
         details = player.get_score_details()
-        for key, val in details.iteritems():
+        for key, val in details.items():
             if isinstance(val, dict):
                 pid = int(key)
                 jid = int(val["judge_id"])
