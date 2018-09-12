@@ -42,9 +42,9 @@
                 <div class="am-u-sm-2">
                     {% if comment.user.nickname == user.nickname %}
                     <a href="{{url_for('delete_comment',comment_id=comment.id)}}">删除</a>
+                    {% endif %}
                     {% set comment_username = comment.user.nickname %}
                     <br><a href="#" onclick="double_comment({{ comment.id }},{{ comment.user_id }})">回复</a>
-                    {% endif %}
                 </div>
                 <div class="am-u-sm-7" id="{{ comment.id }}"></div>
                 <br>
