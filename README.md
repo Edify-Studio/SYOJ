@@ -62,7 +62,7 @@ alter table XXX convert to character set utf8;
 
 4.网页响应式
 
-5.注意：通知有权限Bug
+5.有bug请及时提交issue
 
 ## 特别鸣谢
 
