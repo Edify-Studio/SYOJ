@@ -62,7 +62,9 @@ alter table XXX convert to character set utf8;
 
 4.网页响应式
 
-5.有bug请及时提交issue
+5.评测机仅支持Ubuntu 14.04
+
+6.有bug请及时提交issue
 
 ## 特别鸣谢
 
