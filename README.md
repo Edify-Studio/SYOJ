@@ -54,17 +54,19 @@ alter table XXX convert to character set utf8;
 
 ## TODO LIST
 
-1.一个更为简单易用的syoj安装&管理脚本
+0.~~后端更换使用Tornado~~
 
-2.网站后台
+1.一个更为简单易用的安装&管理脚本
+
+2.网站后台界面
 
 3.更加友好的前端交互设计
 
 4.网页响应式
 
-5.评测机仅支持Ubuntu 14.04
+5.~~前后端分离~~
 
-6.有bug请及时提交issue
+6.评测机支持Ubuntu 16.04
 
 ## 特别鸣谢
 
