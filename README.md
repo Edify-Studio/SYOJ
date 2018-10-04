@@ -68,6 +68,8 @@ alter table XXX convert to character set utf8;
 
 6.评测机支持Ubuntu 16.04
 
+7.简单的防攻击措施
+
 ## 特别鸣谢
 
 [@TimHsue](https://github.com/TimHsue) <br>
