@@ -4,13 +4,17 @@
 ## 依赖项
 mysql
 *注意：本文档不介绍mysql的配置工作*
+
 python3
+
 flask
+
 flask-sqlalchemy
+
 pymysql
 
 ## 如何安装它
-*以下教程以ubuntu为例，其他linux请自行替换apt*
+*以下教程以ubuntu为例，其他linux请自行替换對應的包管理器*
 
 1.安装python3以及pip
 ```bash
