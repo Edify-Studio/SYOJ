@@ -1,3 +1,4 @@
+[![996.ICU](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
 # Hello SYOJ!
 > 一个开源的 OI/ACM/icpc在线测评平台,基于Flask版的开源项目[SYZOJ](https://github.com/Zhengzhou-11-Highschool/syzoj)二次开发 
 
