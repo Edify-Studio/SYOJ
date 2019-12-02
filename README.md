@@ -45,7 +45,7 @@ sudo python setup.py install
 ```
 2.给予 SYOJ/syzoj-judge/runner 运行权限
 ```bash
-chmod -x runner
+chmod +x runner
 ```
 3.使用<strong>Python2</strong>运行judge.py
 ```bash
